@@ -22,9 +22,9 @@ app.use(cors(options));
 
 app.use(express.json());
 
+const router = express.Router();
 
-
-app.post("/mail", async (req: Request, res: Response) => {
+router.post("/mail", async (req: Request, res: Response) => {
   const data = req.body;
   const _info = await mailService.sendMail({
     to: "ranvitranjit@gmail.com",
@@ -32,17 +32,20 @@ app.post("/mail", async (req: Request, res: Response) => {
     text: data.message,
   });
   console.log(_info);
-  
+
   res.send({ message: "Mail send success" });
 });
 
-app.get("*", (req: Request, res: Response) => {
+router.get("*", (req: Request, res: Response) => {
   res.send("Ranjith deployed this app");
 });
 
-// app.listen(port, () => {
-//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-// });
+// app.use(bodyParser.json());
+app.use("/.netlify/functions/server", router);
+
+app.get("*", (req: Request, res: Response) => {
+  res.send("Ranjith deployed this apps");
+});
 
 module.exports = app;
 module.exports.handler = ServerlessHttp(app);
