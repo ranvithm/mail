@@ -37,8 +37,7 @@ app.post("/mail", async (req: Request, res: Response) => {
   res.send({ message: "Mail send success" });
 });
 
-// app.listen(port, () => {
-//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+});
 
-module.exports = app;
