@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import MailService from "./helper";
+import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 
@@ -39,7 +40,9 @@ app.get("*", (req: Request, res: Response) => {
   res.send("Ranjith deployed this app");
 });
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+// });
 
+module.exports = app;
+module.exports.handler = ServerlessHttp(app);
