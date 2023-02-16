@@ -21,9 +21,7 @@ app.use(cors(options));
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
+
 
 app.post("/mail", async (req: Request, res: Response) => {
   const data = req.body;
@@ -33,8 +31,12 @@ app.post("/mail", async (req: Request, res: Response) => {
     text: data.message,
   });
   console.log(_info);
-
+  
   res.send({ message: "Mail send success" });
+});
+
+app.get("*", (req: Request, res: Response) => {
+  res.send("Ranjith deployed this app");
 });
 
 app.listen(port, () => {
