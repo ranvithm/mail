@@ -31,7 +31,7 @@ app.get("/sendMail", async (req: Request, res: Response) => {
 });
 
 app.get("/health", (req: Request, res: Response) => {
-  res.send("Ranjith deployed this apps");
+  res.send("Vercel deployment is successfully done");
 });
 
 app.get("*", (req: Request, res: Response) => {
