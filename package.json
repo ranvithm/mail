@@ -4,10 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "netlify-lambda build dist",
+    "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "lambda": "netlify-lambda serve dist"
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "keywords": [],
   "author": "",
