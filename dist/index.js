@@ -20,11 +20,22 @@ dotenv_1.default.config();
 const mailService = helper_1.default.getInstance();
 mailService.createConnection();
 const app = (0, express_1.default)();
-const allowedOrigins = ["http://localhost:3000", "https://ranvithm.github.io", "https://ranvithm.vercel.app/"];
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://ranvithm.github.io",
+    "https://ranvithm.vercel.app/",
+];
 const options = {
     origin: allowedOrigins,
 };
 app.use((0, cors_1.default)(options));
+app.use(function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    next();
+});
 app.use(express_1.default.json());
 app.post("/sendMail", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, mailId, message } = req.body;
