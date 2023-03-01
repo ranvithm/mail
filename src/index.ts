@@ -9,9 +9,8 @@ const mailService = MailService.getInstance();
 mailService.createConnection();
 
 const app: Express = express();
-const port = process.env.PORT;
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000", "https://ranvithm.github.io", "https://ranvithm.vercel.app/"];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
@@ -21,11 +20,13 @@ app.use(cors(options));
 
 app.use(express.json());
 
-app.get("/sendMail", async (req: Request, res: Response) => {
+app.post("/sendMail", async (req: Request, res: Response) => {  
+  const { name, mailId, message } = req.body;
+  
   await mailService.sendMail({
-    to: "ranvitranjit@gmail.com",
-    subject: "Testing",
-    text: "Hello",
+    to: mailId,
+    subject: name,
+    text: message,
   });
   res.send("Ranjith deployed this apps");
 });
@@ -39,3 +40,7 @@ app.get("*", (req: Request, res: Response) => {
 });
 
 module.exports = app;
+
+// app.listen(5000, () => {
+//   console.log("testing app");
+// });

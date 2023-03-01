@@ -16,11 +16,10 @@ export default class MailService {
 
   //CREATE A CONNECTION FOR LIVE
   async createConnection() {
-    console.log(process.env);
 
     const { SMTP_HOST, SMTP_PORT, SMTP_TLS, SMTP_USERNAME, SMTP_PASSWORD } =
       process.env;
-    console.log(SMTP_HOST, SMTP_PORT, SMTP_TLS, SMTP_USERNAME, SMTP_PASSWORD);
+    // console.log(SMTP_HOST, SMTP_PORT, SMTP_TLS, SMTP_USERNAME, SMTP_PASSWORD);
 
     if (SMTP_HOST && SMTP_PORT && SMTP_TLS && SMTP_USERNAME && SMTP_PASSWORD)
       this.transporter = nodemailer.createTransport({
