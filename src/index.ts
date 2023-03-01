@@ -24,13 +24,18 @@ app.use(express.json());
 app.get("/sendMail", async (req: Request, res: Response) => {
   await mailService.sendMail({
     to: "ranvitranjit@gmail.com",
-    subject: 'Testing',
-    text:'Hello'
+    subject: "Testing",
+    text: "Hello",
   });
   res.send("Ranjith deployed this apps");
 });
-app.get("*", (req: Request, res: Response) => {
+
+app.get("/health", (req: Request, res: Response) => {
   res.send("Ranjith deployed this apps");
+});
+
+app.get("*", (req: Request, res: Response) => {
+  res.send("Ranjith deployed this app");
 });
 
 module.exports = app;
