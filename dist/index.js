@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const helper_1 = __importDefault(require("./helper"));
-const serverless_http_1 = __importDefault(require("serverless-http"));
 dotenv_1.default.config();
 const mailService = helper_1.default.getInstance();
 mailService.createConnection();
@@ -28,24 +27,18 @@ const options = {
 };
 app.use((0, cors_1.default)(options));
 app.use(express_1.default.json());
-const router = express_1.default.Router();
-router.post("/mail", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const _info = yield mailService.sendMail({
+app.get("/sendMail", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield mailService.sendMail({
         to: "ranvitranjit@gmail.com",
-        subject: `${data.name} - ${data.mailId}`,
-        text: data.message,
+        subject: "Testing",
+        text: "Hello",
     });
-    console.log(_info);
-    res.send({ message: "Mail send success" });
+    res.send("Ranjith deployed this apps");
 }));
-router.get("*", (req, res) => {
-    res.send("Ranjith deployed this app");
-});
-// app.use(bodyParser.json());
-app.use("/.netlify/functions/server", router);
-app.get("*", (req, res) => {
+app.get("/health", (req, res) => {
     res.send("Ranjith deployed this apps");
 });
+app.get("*", (req, res) => {
+    res.send("Ranjith deployed this app");
+});
 module.exports = app;
-module.exports.handler = (0, serverless_http_1.default)(app);
