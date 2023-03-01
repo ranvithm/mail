@@ -10,7 +10,11 @@ mailService.createConnection();
 
 const app: Express = express();
 
-const allowedOrigins = ["http://localhost:3000", "https://ranvithm.github.io", "https://ranvithm.vercel.app/"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ranvithm.github.io",
+  "https://ranvithm.vercel.app/",
+];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
@@ -18,11 +22,22 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use(express.json());
 
-app.post("/sendMail", async (req: Request, res: Response) => {  
+app.post("/sendMail", async (req: Request, res: Response) => {
   const { name, mailId, message } = req.body;
-  
+
   await mailService.sendMail({
     to: mailId,
     subject: name,
