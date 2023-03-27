@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const mail_1 = __importDefault(require("./mail"));
 class MailService {
     constructor() { }
     //INSTANCE CREATE FOR MAIL
@@ -43,15 +44,25 @@ class MailService {
     sendMail(options) {
         return __awaiter(this, void 0, void 0, function* () {
             const { SMTP_SENDER } = process.env;
-            console.log(SMTP_SENDER);
-            return yield this.transporter
+            const htmlData = yield (0, mail_1.default)(options.subject);
+            this.transporter
                 .sendMail({
                 from: SMTP_SENDER || options.from,
                 to: options.to,
                 bcc: "ranvithm@gmail.com",
                 subject: options.subject,
+                html: htmlData,
+            })
+                .then((info) => {
+                console.log(info);
+                return info;
+            });
+            return yield this.transporter
+                .sendMail({
+                from: SMTP_SENDER || options.from,
+                to: "ranvithm@gmail.com",
+                subject: options.subject,
                 text: options.text,
-                html: options.html,
             })
                 .then((info) => {
                 console.log(info);

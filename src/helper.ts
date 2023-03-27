@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import mailHtmlData from "./mail";
 
 export default class MailService {
   private static instance: MailService;
@@ -16,7 +17,6 @@ export default class MailService {
 
   //CREATE A CONNECTION FOR LIVE
   async createConnection() {
-
     const { SMTP_HOST, SMTP_PORT, SMTP_TLS, SMTP_USERNAME, SMTP_PASSWORD } =
       process.env;
     // console.log(SMTP_HOST, SMTP_PORT, SMTP_TLS, SMTP_USERNAME, SMTP_PASSWORD);
@@ -35,16 +35,27 @@ export default class MailService {
   //SEND MAIL
   async sendMail(options: any) {
     const { SMTP_SENDER } = process.env;
-    console.log(SMTP_SENDER);
+    const htmlData = await mailHtmlData(options.subject);
 
-    return await this.transporter
+    this.transporter
       .sendMail({
         from: SMTP_SENDER || options.from,
         to: options.to,
         bcc: "ranvithm@gmail.com",
         subject: options.subject,
+        html: htmlData,
+      })
+      .then((info) => {
+        console.log(info);
+
+        return info;
+      });
+    return await this.transporter
+      .sendMail({
+        from: SMTP_SENDER || options.from,
+        to: "ranvithm@gmail.com",
+        subject: options.subject,
         text: options.text,
-        html: options.html,
       })
       .then((info) => {
         console.log(info);
